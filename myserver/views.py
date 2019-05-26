@@ -47,8 +47,8 @@ def information(request, id):
 # 4
 @require_http_methods(['GET'])
 def show(request):
-        items_list = list(Item.objects.values_list('id', flat=True))
-        return JsonResponse({'ids' : items_list} , safe=False)
+    items_list = list(Item.objects.values_list('id', flat=True))
+    return JsonResponse({'ids' : items_list})
 
 
 # 5

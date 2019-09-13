@@ -7,13 +7,15 @@ import numpy as np
 from PIL import Image, ImageDraw
 from django.http import FileResponse
 
-# 1
+
+#  Create item
 @require_http_methods(['POST'])
 def create(request):
     item = Item.objects.create(id=uuid.uuid4())
     return JsonResponse({'msg' : 'OK' , 'id' : item.id})
 
-# 2
+
+#  Add image vector to existin item
 @require_http_methods(['POST'])
 def add_vector(request, id):
     try:
@@ -28,7 +30,8 @@ def add_vector(request, id):
     item.save()
     return HttpResponse('Success', content_type="text/plain")
 
-# 3
+
+#  Get more item info
 @require_http_methods(['GET'])
 def information(request, id):
     try:
@@ -44,14 +47,15 @@ def information(request, id):
         info['hasVector'] = 'no'
     return JsonResponse(info)
 
-# 4
+
+#  Show all existin items
 @require_http_methods(['GET'])
 def show(request):
     items_list = list(Item.objects.values_list('id', flat=True))
     return JsonResponse({'ids' : items_list})
 
 
-# 5
+#  Download item image
 @require_http_methods(['GET'])
 def download_image(request, id):
     try:
@@ -69,7 +73,7 @@ def download_image(request, id):
         return FileResponse(open('image.jpeg', 'rb'))
 
 
-# 6
+#  Delete item
 @require_http_methods(['DELETE'])
 def remove(request, id):
     try:

@@ -9,6 +9,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Item
 
+at_format = '%d-%m-%Y %H:%M:%S'
+
 
 #  Create item
 @require_http_methods(['POST'])
@@ -51,7 +53,7 @@ def information(request, id):
         )
     info = {}
     info['id'] = item.id
-    info['created'] = item.created
+    info['created'] = item.created.strftime(at_format)
     #  true - exist, false - null
     if item.image_vector:
         info['hasVector'] = 'yes'

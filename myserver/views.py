@@ -14,7 +14,12 @@ from .models import Item
 @require_http_methods(['POST'])
 def create(request):
     item = Item.objects.create(id=uuid.uuid4())
-    return JsonResponse({'msg' : 'OK' , 'id' : item.id})
+    return JsonResponse(
+        {
+            'msg' : 'OK',
+            'id' : item.id,
+        }
+    )
 
 
 #  Add image vector to existin item
@@ -39,11 +44,16 @@ def information(request, id):
     try:
         item = Item.objects.get(id=id)
     except ObjectDoesNotExist:
-        return JsonResponse({'message' : 'not found'})
+        return JsonResponse(
+            {
+                'message' : 'not found',
+            }
+        )
     info = {}
     info['id'] = item.id
     info['created'] = item.created
-    if item.image_vector:  # true - exist, false - null
+    #  true - exist, false - null
+    if item.image_vector:
         info['hasVector'] = 'yes'
     else:
         info['hasVector'] = 'no'
@@ -54,7 +64,11 @@ def information(request, id):
 @require_http_methods(['GET'])
 def show(request):
     items_list = list(Item.objects.values_list('id', flat=True))
-    return JsonResponse({'ids' : items_list})
+    return JsonResponse(
+        {
+            'ids' : items_list,
+        }
+    )
 
 
 #  Download item image
@@ -63,9 +77,14 @@ def download_image(request, id):
     try:
         item = Item.objects.get(id=id)
     except ObjectDoesNotExist:
-        return JsonResponse({'message' : 'Item not found'})
+        return JsonResponse(
+            {
+                'message' : 'Item not found',
+            }
+        )
     if item.image_vector:
-        array = np.reshape(item.image_vector, (-1, item.image_width)) * 255 # get original array
+        #  get original array
+        array = np.reshape(item.image_vector, (-1, item.image_width)) * 255
         image = Image.fromarray(array).convert('RGB')
         image.save('image.jpeg')
         return FileResponse(open('image.jpeg', 'rb'))
@@ -81,6 +100,14 @@ def remove(request, id):
     try:
         item = Item.objects.get(id=id)
     except ObjectDoesNotExist:
-        return JsonResponse({'message' : 'Item not found'})
+        return JsonResponse(
+            {
+                'message' : 'Item not found',
+            }
+        )
     item.delete()
-    return JsonResponse({'message' : 'OK'})
+    return JsonResponse(
+        {
+            'message' : 'OK',
+        }
+    )

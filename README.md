@@ -53,6 +53,6 @@ To see all existin items make HTTP request to 'http://localhost:8000/items/show'
 
 To download item image make HTTP request to 'http://localhost:8000/items/3ae9e120-cd14-436e-9790-93b5566b29c4/download_image' (method: GET), response body would be grey image
 
-To delete item make HTTP request to 'http://localhost:8000/items/3ae9e120-cd14-436e-9790-93b5566b29c4/download_image' (method: DELETE), response body would be
+To delete item make HTTP request to 'http://localhost:8000/items/3ae9e120-cd14-436e-9790-93b5566b29c4/remove' (method: DELETE), response body would be
 
       'OK' if image deleted
